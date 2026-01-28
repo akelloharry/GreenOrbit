@@ -1,0 +1,265 @@
+GreenOrbit Early Warning Dashboard - Project Setup Guide
+
+FEATURES IMPLEMENTED:
+=====================
+
+✅ FARMER DASHBOARD
+   - Home Summary Card with Crop Health, Pest Risk, Disease Risk
+   - Early Warning Alerts with pest names, risk levels, timeframes
+   - Interactive Map View with farm boundaries
+   - Explainable AI Panel showing NDRE, Soil Moisture, Temperature, Humidity analysis
+   - "What To Do" Panel with scouting, prevention, and control advice
+   - Real-Time Sensor Status with live IoT data (soil moisture, temperature, humidity)
+   - Farm selector to switch between multiple farms
+   - WebSocket connection for live sensor updates
+
+✅ ADMIN DASHBOARD
+   - System Overview with key metrics
+   - Feature Importance visualization for ML model
+   - Alert Management with active/resolved filtering
+   - Model Management with risk thresholds
+   - Farmer Feedback section placeholder
+   - Real-time data monitoring capabilities
+
+✅ AUTHENTICATION & ROUTING
+   - Role-based access control (Farmer vs Admin)
+   - Login page with role selection
+   - Protected routes
+   - Session persistence with localStorage
+
+✅ BACKEND API
+   - Express.js REST API server
+   - WebSocket server for real-time sensor streaming
+   - Mock data endpoints for all resources
+   - Sensor data simulation every 10 seconds
+   - Farm subscriptions for targeted updates
+
+✅ INDICATOR SYSTEM (FROM EXCEL)
+   - NDRE classifications (Very Healthy to Severe Stress)
+   - Soil Moisture classifications (Low, Moderate, High)
+   - Temperature classifications (Low to Very High)
+   - Humidity classifications (Low, Medium, High)
+   - Risk assessment based on multiple indicators
+   - Pest-specific risk models for 7 major maize pests
+
+PEST MODELS INCLUDED:
+   1. Fall Armyworm (FAW) - 7-10 day warning
+   2. Aphids - 5-7 day warning
+   3. Stem Borers - 10-14 day warning
+   4. Thrips - 5-8 day warning
+   5. Termites - 14-21 day warning
+   6. Cutworms - 7-10 day warning
+   7. African Armyworm - Variable warning
+
+PROJECT STRUCTURE:
+==================
+
+greenorbit-dashboard/
+├── public/
+│   └── index.html                    # React HTML template
+├── server/
+│   ├── index.js                      # Express + WebSocket server
+│   └── mockDataGenerator.js          # Mock data generation
+├── src/
+│   ├── components/farmer/            # Farmer dashboard components
+│   ├── constants/
+│   │   └── indicators.js             # All indicator classifications
+│   ├── context/
+│   │   └── AuthContext.jsx           # Auth state management
+│   ├── pages/
+│   │   ├── LoginPage.jsx             # Login UI
+│   │   ├── farmer/
+│   │   │   ├── FarmerDashboard.jsx   # Main farmer page
+│   │   │   └── FarmDetail.jsx        # Farm analytics page
+│   │   └── admin/
+│   │       ├── AdminDashboard.jsx    # Admin overview
+│   │       ├── ModelManagement.jsx   # ML model settings
+│   │       └── AlertManagement.jsx   # Alert management
+│   ├── routing/
+│   │   └── AppRouter.jsx             # Route definitions
+│   ├── utils/
+│   │   ├── riskAssessment.js         # Risk calculation engine
+│   │   └── mockData.js               # Client mock data
+│   ├── App.jsx                       # Main component
+│   ├── index.js                      # React entry point
+│   └── index.css                     # Global styles
+├── package.json                      # Dependencies
+├── tailwind.config.js                # Tailwind configuration
+├── postcss.config.js                 # PostCSS config
+└── README.md                         # Full documentation
+
+TECHNOLOGIES USED:
+==================
+
+Frontend:
+   - React 18 with Hooks
+   - React Router v6
+   - Tailwind CSS
+   - React Hot Toast
+   - Context API
+
+Backend:
+   - Node.js
+   - Express.js
+   - WebSocket (ws)
+   - CORS enabled
+
+Styling:
+   - Tailwind CSS
+   - Custom CSS animations
+   - Mobile-first responsive design
+
+INSTALLATION:
+==============
+
+1. Navigate to the project directory:
+   cd greenorbit-dashboard
+
+2. Install dependencies:
+   npm install
+
+3. Install backend dependencies:
+   npm install express cors ws
+
+4. Create .env file (copy from .env.example):
+   cp .env.example .env
+
+RUNNING THE APPLICATION:
+=========================
+
+Development Mode:
+   npm run dev
+
+Or run separately:
+   # Terminal 1 - Frontend
+   npm start
+
+   # Terminal 2 - Backend
+   npm run backend
+
+Production Build:
+   npm run build
+
+DEMO CREDENTIALS:
+=================
+
+Farmer Account:
+   Email: farmer@example.com
+   Password: password123
+
+Admin Account:
+   Email: admin@example.com
+   Password: password123
+
+API ENDPOINTS:
+==============
+
+Authentication:
+   POST   /api/auth/login
+   POST   /api/auth/logout
+
+Farms:
+   GET    /api/farms
+   GET    /api/farms/:farmId
+
+Alerts:
+   GET    /api/alerts
+   GET    /api/alerts/:farmId
+
+Historical Data:
+   GET    /api/historical-data/:farmId?days=30
+
+Admin:
+   GET    /api/admin/stats
+   GET    /api/admin/feature-importance
+
+WebSocket:
+   ws://localhost:5000
+   - Messages: { type: 'subscribe'|'unsubscribe', farmId: 'FARM-XXX' }
+   - Updates: { type: 'sensor-update', farmId, data, timestamp }
+
+KEY FEATURES:
+=============
+
+1. INDICATOR ANALYSIS
+   ✓ NDRE from satellite (Sentinel-2)
+   ✓ Soil Moisture from IoT sensors
+   ✓ Temperature from weather stations
+   ✓ Humidity from atmospheric sensors
+   ✓ Mapping to traditional farmer indicators
+
+2. EXPLAINABLE AI
+   ✓ Shows why each alert was generated
+   ✓ Breaks down multiple indicators
+   ✓ Connects to traditional farming knowledge
+   ✓ Displays confidence scores
+
+3. ACTIONABLE ADVICE
+   ✓ Scouting instructions
+   ✓ Prevention strategies
+   ✓ Control readiness guidance
+   ✓ Timeline for action (Days 1-3, 4-7, 7-10)
+
+4. REAL-TIME UPDATES
+   ✓ WebSocket for live sensor data
+   ✓ 10-second update intervals
+   ✓ Connection status indicators
+   ✓ Timestamp tracking
+
+5. ROLE-BASED ACCESS
+   ✓ Farmer dashboard - simple, mobile-optimized
+   ✓ Admin dashboard - detailed, desktop-optimized
+   ✓ Protected routes
+   ✓ Session management
+
+NEXT STEPS FOR PRODUCTION:
+===========================
+
+1. Database Integration
+   - Replace mock data with real database (PostgreSQL/MongoDB)
+   - Implement proper data persistence
+   - Add data validation and error handling
+
+2. Advanced Features
+   - Leaflet/Mapbox integration for interactive maps
+   - Recharts for historical data visualization
+   - Photo upload and CNN-based pest identification
+   - SMS/Push notification system
+   - Farmer feedback validation pipeline
+
+3. Security
+   - JWT-based authentication
+   - Password hashing (bcrypt)
+   - HTTPS/SSL setup
+   - Input sanitization
+   - Rate limiting
+
+4. Performance
+   - Database indexing
+   - Caching strategy (Redis)
+   - Code splitting and lazy loading
+   - Image optimization
+   - CDN deployment
+
+5. Monitoring & Analytics
+   - Sentry for error tracking
+   - Google Analytics
+   - Performance monitoring
+   - User behavior tracking
+
+6. Localization
+   - Multi-language support (Swahili, etc.)
+   - Local timezone handling
+   - Currency/unit localization
+
+SUPPORT & DOCUMENTATION:
+=========================
+
+For detailed information, see README.md
+For API details, check server/index.js
+For indicator specs, see src/constants/indicators.js
+For risk logic, see src/utils/riskAssessment.js
+
+Questions? Review the Excel files for indicator specifications:
+   - convertcsv (5).xlsx - Indicator classifications
+   - convertcsv (7).xlsx - Pest-specific risk models
