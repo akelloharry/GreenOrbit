@@ -11,21 +11,16 @@ const ModelManagement = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchFeatures = async () => {
-      try {
-        const response = await fetch('/api/admin/feature-importance');
-        if (!response.ok) throw new Error('Failed to fetch features');
-        const data = await response.json();
-        setFeatures(data.data);
-      } catch (error) {
-        console.error('Error:', error);
-        toast.error('Failed to load feature importance');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchFeatures();
+    setLoading(true);
+    setTimeout(() => {
+      setFeatures([
+        { feature: 'NDRE', importance: 42, description: 'Normalized Difference Red Edge' },
+        { feature: 'Soil Moisture', importance: 28, description: 'Soil moisture content' },
+        { feature: 'Temperature', importance: 18, description: 'Ambient temperature' },
+        { feature: 'Humidity', importance: 12, description: 'Relative humidity' },
+      ]);
+      setLoading(false);
+    }, 500);
   }, []);
 
   const handleRetrain = () => {

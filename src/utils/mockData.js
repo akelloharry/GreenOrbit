@@ -49,7 +49,6 @@ export const generateMockFarmData = (farmId = 'FARM-001') => {
 
   const pestRisk = assessPestRisk(indicators);
   const activePests = predictActivePests(indicators);
-  const diseaseRisk = calculateDiseaseRisk(indicators);
 
   return {
     farmId,
@@ -91,14 +90,13 @@ export const generateMockFarmData = (farmId = 'FARM-001') => {
         color: pestRisk.riskColor,
         confidence: pestRisk.confidence,
       },
-      diseaseRisk: {
-        level: diseaseRisk.diseaseRiskLevel,
-        confidence: diseaseRisk.confidence,
-      },
       activePests: activePests.slice(0, 3), // Top 3 threats
     },
   };
 };
+// Real Trans Nzoia farm coordinates (sampled)
+// Removed duplicate generateMockFarmData function
+// Keeping only the Trans Nzoia version
 
 /**
  * Generate multiple farm data

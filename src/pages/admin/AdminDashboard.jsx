@@ -3,7 +3,7 @@
  * System overview and monitoring
  */
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
@@ -11,26 +11,34 @@ import toast from 'react-hot-toast';
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
-  const [stats, setStats] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const response = await fetch('/api/admin/stats');
-        if (!response.ok) throw new Error('Failed to fetch stats');
-        const data = await response.json();
-        setStats(data.data);
-      } catch (error) {
-        console.error('Error fetching stats:', error);
-        toast.error('Failed to load admin stats');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchStats();
-  }, []);
+  // Static mock stats for demo
+  // Demo data for sensors, farms, alerts
+  const sensorSources = [
+    { name: 'Sentinel-2', type: 'Satellite' },
+    { name: 'MODIS', type: 'Satellite' },
+    { name: 'NOAA Radar', type: 'Radar' },
+    { name: 'Field Sensor A', type: 'Ground' },
+    { name: 'Field Sensor B', type: 'Ground' },
+  ];
+  const monitoredFarms = [
+    { id: 'FARM-001', name: 'Kitale Central', acreage: 12, location: '1.015, 35.006' },
+    { id: 'FARM-002', name: 'Kiminini', acreage: 8, location: '0.966, 34.991' },
+    { id: 'FARM-003', name: 'Endebess', acreage: 15, location: '1.080, 34.850' },
+    { id: 'FARM-004', name: 'Cherangany', acreage: 10, location: '1.140, 35.180' },
+    { id: 'FARM-005', name: 'Saboti', acreage: 7, location: '1.120, 34.950' },
+  ];
+  const activeAlerts = [
+    { id: 'ALERT-001', farm: monitoredFarms[0], pest: 'Fall Armyworm', risk: 'High', status: 'Active' },
+    { id: 'ALERT-002', farm: monitoredFarms[1], pest: 'Aphids', risk: 'Moderate', status: 'Active' },
+  ];
+  const stats = {
+    totalMonitoredFarms: monitoredFarms.length,
+    activeAlerts: activeAlerts.length,
+    modelConfidenceScore: 92,
+    sensorsOnline: sensorSources.length,
+    sensorsOffline: 1,
+  };
+  const loading = false;
 
   const handleLogout = () => {
     logout();
@@ -91,12 +99,14 @@ const AdminDashboard = () => {
                 value={stats.totalMonitoredFarms}
                 icon="🌾"
                 color="bg-green-100 text-green-800"
+                onClick={() => alert('Monitored Farms:\n' + monitoredFarms.map(f => `${f.name} (${f.acreage} ha)`).join('\n'))}
               />
               <StatCard
                 title="Active Alerts"
                 value={stats.activeAlerts}
                 icon="🚨"
                 color="bg-red-100 text-red-800"
+                onClick={() => alert('Active Alerts:\n' + activeAlerts.map(a => `${a.farm.name}: ${a.pest} (${a.risk})`).join('\n'))}
               />
               <StatCard
                 title="Model Confidence"
@@ -106,9 +116,10 @@ const AdminDashboard = () => {
               />
               <StatCard
                 title="Sensors Online"
-                value={`${stats.sensorsOnline}/${stats.sensorsOnline + stats.sensorsOffline}`}
+                value={stats.sensorsOnline}
                 icon="📡"
                 color="bg-purple-100 text-purple-800"
+                onClick={() => alert('Sensors Online:\n' + sensorSources.map(s => `${s.name} (${s.type})`).join('\n'))}
               />
             </div>
 
@@ -119,10 +130,17 @@ const AdminDashboard = () => {
                 <h2 className="text-xl font-bold text-gray-800 mb-4">📊 Data Monitoring</h2>
                 <div className="space-y-4">
                   <div className="h-64 bg-gray-50 rounded border border-gray-200 flex items-center justify-center">
-                    <p className="text-gray-500">Real-time sensor streams and data trends</p>
+                    <div>
+                      <p className="text-gray-500 mb-2">Real-time sensor streams and data trends</p>
+                      <ul className="text-xs text-gray-700">
+                        {sensorSources.map((s, i) => (
+                          <li key={i}>{s.name} ({s.type})</li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
                   <button
-                    onClick={() => navigate('/admin/data-monitoring')}
+                    onClick={() => alert('Data Monitoring: Showing sensor data and trends.')}
                     className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
                   >
                     View Detailed Monitoring
@@ -135,21 +153,27 @@ const AdminDashboard = () => {
                 <h2 className="text-xl font-bold text-gray-800 mb-4">⚙️ Quick Actions</h2>
                 <div className="space-y-3">
                   <button
-                    onClick={() => navigate('/admin/model-management')}
+                    onClick={() => alert('Model Management: Adjust ML model parameters.')}
                     className="w-full py-2 px-4 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition text-sm font-medium"
                   >
                     Model Management
                   </button>
                   <button
-                    onClick={() => navigate('/admin/alerts')}
+                    onClick={() => alert('Alert Management: View and manage active pest alerts.')}
                     className="w-full py-2 px-4 bg-red-50 text-red-700 rounded-lg hover:bg-red-100 transition text-sm font-medium"
                   >
                     Alert Management
                   </button>
-                  <button className="w-full py-2 px-4 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition text-sm font-medium">
+                  <button
+                    onClick={() => alert('Farmer Feedback: Review feedback from farmers.')}
+                    className="w-full py-2 px-4 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition text-sm font-medium"
+                  >
                     Farmer Feedback
                   </button>
-                  <button className="w-full py-2 px-4 bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 transition text-sm font-medium">
+                  <button
+                    onClick={() => alert('System Reports: Generate and view system reports.')}
+                    className="w-full py-2 px-4 bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 transition text-sm font-medium"
+                  >
                     System Reports
                   </button>
                 </div>
@@ -158,42 +182,59 @@ const AdminDashboard = () => {
 
             {/* Alert History */}
             <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-xl font-bold text-gray-800 mb-4">🔔 Recent Alerts</h2>
+              <h2 className="text-xl font-bold text-gray-800 mb-4">🔔 Active Alerts</h2>
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b text-gray-600">
                       <th className="text-left py-2">Farm</th>
-                      <th className="text-left py-2">Pest/Disease</th>
+                      <th className="text-left py-2">Pest</th>
                       <th className="text-left py-2">Risk Level</th>
                       <th className="text-left py-2">Status</th>
-                      <th className="text-left py-2">Date</th>
+                      <th className="text-left py-2">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className="border-b hover:bg-gray-50">
-                      <td className="py-3">FARM-001</td>
-                      <td className="py-3">Fall Armyworm</td>
-                      <td className="py-3">
-                        <span className="px-2 py-1 bg-red-100 text-red-800 rounded text-xs font-medium">High</span>
-                      </td>
-                      <td className="py-3">Active</td>
-                      <td className="py-3 text-gray-600">2 days ago</td>
-                    </tr>
-                    <tr className="border-b hover:bg-gray-50">
-                      <td className="py-3">FARM-002</td>
-                      <td className="py-3">Aphids</td>
-                      <td className="py-3">
-                        <span className="px-2 py-1 bg-yellow-100 text-yellow-800 rounded text-xs font-medium">
-                          Moderate
-                        </span>
-                      </td>
-                      <td className="py-3">Active</td>
-                      <td className="py-3 text-gray-600">1 day ago</td>
-                    </tr>
+                    {activeAlerts.map((alert, idx) => (
+                      <tr key={idx} className="border-b hover:bg-gray-50">
+                        <td className="py-3">{alert.farm.name}</td>
+                        <td className="py-3">{alert.pest}</td>
+                        <td className="py-3">
+                          <span className={`px-2 py-1 rounded text-xs font-medium ${alert.risk === 'High' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'}`}>{alert.risk}</span>
+                        </td>
+                        <td className="py-3">{alert.status}</td>
+                        <td className="py-3">
+                          <button className="px-3 py-1 bg-blue-600 text-white rounded mr-2 text-xs" onClick={() => alert(`Viewing details for ${alert.farm.name}`)}>View</button>
+                          <button className="px-3 py-1 bg-green-600 text-white rounded text-xs" onClick={() => window.open(`https://www.google.com/maps/search/?api=1&query=${alert.farm.location}`, '_blank')}>Get Directions</button>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
+            </div>
+
+            {/* Monitored Farms */}
+            <div className="bg-white rounded-lg shadow p-6 mt-6">
+              <h2 className="text-xl font-bold text-gray-800 mb-4">🌾 Monitored Farms Registry</h2>
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b text-gray-600">
+                    <th className="text-left py-2">Farm</th>
+                    <th className="text-left py-2">Acreage (ha)</th>
+                    <th className="text-left py-2">Location</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {monitoredFarms.map((farm, idx) => (
+                    <tr key={idx} className="border-b hover:bg-gray-50">
+                      <td className="py-3 font-medium text-gray-800">{farm.name}</td>
+                      <td className="py-3">{farm.acreage}</td>
+                      <td className="py-3">{farm.location}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </>
         )}

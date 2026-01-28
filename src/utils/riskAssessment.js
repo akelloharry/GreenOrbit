@@ -9,7 +9,7 @@ import {
   classifyTemperature,
   classifyHumidity,
   PEST_RISK_MODELS,
-} from './indicators';
+} from '../constants/indicators';
 
 // Risk Level Hierarchy
 const RISK_LEVEL_PRIORITY = {

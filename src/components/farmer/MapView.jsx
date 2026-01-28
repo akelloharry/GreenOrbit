@@ -3,36 +3,38 @@
  * Displays farm boundary and risk zones
  */
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
 
 const MapView = ({ farmData }) => {
   const { location } = farmData;
 
   return (
     <div className="bg-gray-50 p-4 md:p-6">
-      {/* Map Container - Using placeholder since Leaflet needs setup */}
-      <div className="relative w-full h-96 bg-gray-200 rounded-lg overflow-hidden flex items-center justify-center">
-        {/* Placeholder Map */}
-        <div className="text-center">
-          <svg className="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-          </svg>
-          <p className="text-gray-600 font-medium">Farm Map Visualization</p>
-          <p className="text-gray-500 text-sm mt-1">
-            Location: {location.latitude.toFixed(3)}°, {location.longitude.toFixed(3)}°
-          </p>
-          <div className="mt-4 p-3 bg-white rounded-lg inline-block">
-            <p className="text-sm text-gray-700">
-              <strong>Map Features:</strong>
-            </p>
-            <ul className="text-xs text-gray-600 mt-2 space-y-1">
-              <li>✓ Farm boundary outline</li>
-              <li>✓ Risk zones (Green/Yellow/Red)</li>
-              <li>✓ Sensor locations</li>
-            </ul>
-          </div>
-        </div>
+      {/* Interactive Map */}
+      <div className="relative w-full h-96 rounded-lg overflow-hidden">
+        <MapContainer
+          center={[location.latitude, location.longitude]}
+          zoom={16}
+          scrollWheelZoom={false}
+          style={{ height: '100%', width: '100%' }}
+        >
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <Marker position={[location.latitude, location.longitude]} icon={L.icon({ iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png', iconSize: [25, 41], iconAnchor: [12, 41] })}>
+            <Popup>
+              <div>
+                <strong>{farmData.farmName}</strong><br />
+                Lat: {location.latitude.toFixed(5)}<br />
+                Lng: {location.longitude.toFixed(5)}
+              </div>
+            </Popup>
+          </Marker>
+        </MapContainer>
       </div>
 
       {/* Map Legend */}

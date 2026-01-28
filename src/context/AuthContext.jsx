@@ -16,28 +16,25 @@ export const AuthProvider = ({ children }) => {
   /**
    * Login user
    */
+  // Static login for demo: accepts any credentials, sets user based on role
   const login = useCallback(async (email, password, role = 'farmer') => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password, role }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Login failed');
-      }
-
-      const data = await response.json();
-      setUser(data.user);
+      // Simulate network delay
+      await new Promise((res) => setTimeout(res, 500));
+      const demoUser = {
+        name: role === 'admin' ? 'Admin User' : 'Farmer Joe',
+        email,
+        role,
+      };
+      setUser(demoUser);
       setIsAuthenticated(true);
-      localStorage.setItem('authToken', data.token);
-      localStorage.setItem('user', JSON.stringify(data.user));
-      return data;
+      localStorage.setItem('authToken', 'demo-token');
+      localStorage.setItem('user', JSON.stringify(demoUser));
+      return { user: demoUser, token: 'demo-token' };
     } catch (err) {
-      setError(err.message);
+      setError('Demo login failed');
       throw err;
     } finally {
       setLoading(false);

@@ -14,84 +14,30 @@ import ExplainableAIPanel from '../../components/farmer/ExplainableAIPanel';
 import WhatToDoPanel from '../../components/farmer/WhatToDoPanel';
 import RealTimeSensorStatus from '../../components/farmer/RealTimeSensorStatus';
 import FarmerNav from '../../components/farmer/FarmerNav';
+import TraditionalIndicatorsPanel from '../../components/farmer/TraditionalIndicatorsPanel';
+import PremiumsPanel from '../../components/farmer/PremiumsPanel';
+import { generateMockFarmData } from '../../utils/mockData';
 
 const FarmerDashboard = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const [selectedFarm, setSelectedFarm] = useState('FARM-001');
-  const [farmData, setFarmData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [wsConnected, setWsConnected] = useState(false);
+  const [farmData, setFarmData] = useState(generateMockFarmData(selectedFarm));
+  const [loading, setLoading] = useState(false);
+  const [wsConnected] = useState(false); // Always false for static demo
 
   /**
    * Fetch farm data
    */
   useEffect(() => {
-    const fetchFarmData = async () => {
-      try {
-        const response = await fetch(`/api/farms/${selectedFarm}`);
-        if (!response.ok) throw new Error('Failed to fetch farm data');
-        const data = await response.json();
-        setFarmData(data.data);
-      } catch (error) {
-        console.error('Error fetching farm data:', error);
-        toast.error('Failed to load farm data');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchFarmData();
+    // For static demo, just generate new mock data when farm changes
+    setFarmData(generateMockFarmData(selectedFarm));
   }, [selectedFarm]);
 
   /**
    * WebSocket for real-time sensor updates
    */
-  useEffect(() => {
-    const ws = new WebSocket(`ws://${window.location.host}`);
-
-    ws.onopen = () => {
-      console.log('WebSocket connected');
-      setWsConnected(true);
-      // Subscribe to farm updates
-      ws.send(JSON.stringify({ type: 'subscribe', farmId: selectedFarm }));
-    };
-
-    ws.onmessage = (event) => {
-      try {
-        const message = JSON.parse(event.data);
-        if (message.type === 'sensor-update' && message.farmId === selectedFarm) {
-          // Update sensor data in real-time
-          setFarmData((prev) =>
-            prev
-              ? {
-                  ...prev,
-                  sensorData: message.data,
-                }
-              : null
-          );
-        }
-      } catch (error) {
-        console.error('WebSocket message error:', error);
-      }
-    };
-
-    ws.onerror = (error) => {
-      console.error('WebSocket error:', error);
-      setWsConnected(false);
-    };
-
-    ws.onclose = () => {
-      setWsConnected(false);
-    };
-
-    return () => {
-      if (ws.readyState === WebSocket.OPEN) {
-        ws.send(JSON.stringify({ type: 'unsubscribe' }));
-        ws.close();
-      }
-    };
-  }, [selectedFarm]);
+  // WebSocket logic removed for static demo
 
   const handleLogout = () => {
     logout();
@@ -143,9 +89,22 @@ const FarmerDashboard = () => {
 
         {farmData ? (
           <div className="space-y-6">
-            {/* Row 1: Summary & Alerts */}
+            {/* Row 1: Summary & Alerts & Overview */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <HomeSummaryCard farmData={farmData} />
+              <div className="space-y-4">
+                <HomeSummaryCard farmData={farmData} />
+                {/* Overview of traditional indicators */}
+                <div className="bg-white rounded-lg shadow p-4 border-l-4 border-blue-500">
+                  <h2 className="text-lg font-bold text-gray-800 mb-2">Traditional Indicators Overview</h2>
+                  <ul className="text-sm text-gray-700">
+                    <li>NDRE: {farmData.satelliteData.ndre.toFixed(3)}</li>
+                    <li>Soil Moisture: {farmData.sensorData.soilMoisture.toFixed(1)}%</li>
+                    <li>Temperature: {farmData.sensorData.temperature.toFixed(1)}°C</li>
+                    <li>Humidity: {farmData.sensorData.humidity.toFixed(1)}%</li>
+                  </ul>
+                  <p className="text-xs text-gray-500 mt-2">See full details in the panel below.</p>
+                </div>
+              </div>
               <div className="space-y-4">
                 {farmData.riskAssessment.activePests.length > 0 ? (
                   farmData.riskAssessment.activePests.map((pest, index) => (
@@ -168,19 +127,25 @@ const FarmerDashboard = () => {
               <MapView farmData={farmData} />
             </div>
 
-            {/* Row 3: Explainable AI */}
+            {/* Row 3: Traditional Indicators Panel */}
+            <TraditionalIndicatorsPanel farmData={farmData} />
+
+            {/* Row 4: Explainable AI */}
             <ExplainableAIPanel farmData={farmData} />
 
-            {/* Row 4: What To Do */}
+            {/* Row 5: What To Do */}
             {farmData.riskAssessment.activePests.length > 0 && (
               <WhatToDoPanel pest={farmData.riskAssessment.activePests[0]} />
             )}
 
-            {/* Row 5: Real-time Sensors */}
+            {/* Row 6: Real-time Sensors */}
             <RealTimeSensorStatus
               sensorData={farmData.sensorData}
               wsConnected={wsConnected}
             />
+
+            {/* Row 7: Premiums & Tiers */}
+            <PremiumsPanel />
           </div>
         ) : (
           <div className="bg-white rounded-lg shadow p-8 text-center">

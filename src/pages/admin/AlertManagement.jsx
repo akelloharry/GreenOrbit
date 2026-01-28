@@ -12,21 +12,36 @@ const AlertManagement = () => {
   const [filter, setFilter] = useState('all'); // all, active, resolved
 
   useEffect(() => {
-    const fetchAlerts = async () => {
-      try {
-        const response = await fetch('/api/alerts');
-        if (!response.ok) throw new Error('Failed to fetch alerts');
-        const data = await response.json();
-        setAlerts(data.data);
-      } catch (error) {
-        console.error('Error:', error);
-        toast.error('Failed to load alerts');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchAlerts();
+    setLoading(true);
+    setTimeout(() => {
+      setAlerts([
+        {
+          id: 1,
+          farmId: 'FARM-001',
+          pestName: 'Fall Armyworm',
+          riskLevel: 'High',
+          status: 'Active',
+          date: '2026-01-26',
+        },
+        {
+          id: 2,
+          farmId: 'FARM-002',
+          pestName: 'Aphids',
+          riskLevel: 'Moderate',
+          status: 'Active',
+          date: '2026-01-27',
+        },
+        {
+          id: 3,
+          farmId: 'FARM-003',
+          pestName: 'Stem Borer',
+          riskLevel: 'Low',
+          status: 'Resolved',
+          date: '2026-01-20',
+        },
+      ]);
+      setLoading(false);
+    }, 500);
   }, []);
 
   const filteredAlerts = alerts.filter((alert) => {

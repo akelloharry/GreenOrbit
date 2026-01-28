@@ -63,7 +63,7 @@ export const AppRouter = () => {
   const { isAuthenticated } = useAuth();
 
   return (
-    <Router>
+    <Router basename="/GreenOrbit">
       <Routes>
         {/* Public Routes */}
         <Route path="/login" element={<React.Suspense fallback={<LoadingSpinner />}><LoginPage /></React.Suspense>} />
