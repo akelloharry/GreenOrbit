@@ -33,6 +33,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
+  "homepage": "https://akelloharry.github.io/GreenOrbit",
   "eslintConfig": {
     "extends": [
       "react-app"
