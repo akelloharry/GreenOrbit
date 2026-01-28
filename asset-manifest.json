@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/GreenOrbit/static/css/main.18c3dfe3.css",
-    "main.js": "/GreenOrbit/static/js/main.e480ca40.js",
+    "main.js": "/GreenOrbit/static/js/main.1b1e4a62.js",
     "static/js/31.dce9cec3.chunk.js": "/GreenOrbit/static/js/31.dce9cec3.chunk.js",
     "static/js/311.0d3a7075.chunk.js": "/GreenOrbit/static/js/311.0d3a7075.chunk.js",
     "static/js/106.bd18c4da.chunk.js": "/GreenOrbit/static/js/106.bd18c4da.chunk.js",
@@ -10,7 +10,7 @@
     "static/js/886.34f6165f.chunk.js": "/GreenOrbit/static/js/886.34f6165f.chunk.js",
     "index.html": "/GreenOrbit/index.html",
     "main.18c3dfe3.css.map": "/GreenOrbit/static/css/main.18c3dfe3.css.map",
-    "main.e480ca40.js.map": "/GreenOrbit/static/js/main.e480ca40.js.map",
+    "main.1b1e4a62.js.map": "/GreenOrbit/static/js/main.1b1e4a62.js.map",
     "31.dce9cec3.chunk.js.map": "/GreenOrbit/static/js/31.dce9cec3.chunk.js.map",
     "311.0d3a7075.chunk.js.map": "/GreenOrbit/static/js/311.0d3a7075.chunk.js.map",
     "106.bd18c4da.chunk.js.map": "/GreenOrbit/static/js/106.bd18c4da.chunk.js.map",
@@ -20,6 +20,6 @@
   },
   "entrypoints": [
     "static/css/main.18c3dfe3.css",
-    "static/js/main.e480ca40.js"
+    "static/js/main.1b1e4a62.js"
   ]
 }
