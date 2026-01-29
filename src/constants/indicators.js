@@ -42,7 +42,7 @@ export const NDRE_CLASSIFICATIONS = {
     description: 'Moderate Stress',
     traditionalIndicator: 'Visible leaf curling without holes',
     explanation: 'Active sap-feeding pests weakening plant defenses',
-    pestsAtRisk: ['Aphids', 'Leafhoppers'],
+    pestsAtRisk: ['Aphids', 'Grasshoppers'],
   },
   SEVERE_STRESS: {
     range: '<0.05',
@@ -120,7 +120,7 @@ export const TEMPERATURE_CLASSIFICATIONS = {
     description: 'High',
     traditionalIndicator: 'Hot days; warm nights',
     explanation: 'Accelerated pest life cycles and feeding',
-    pestsAtRisk: ['Fall Armyworm', 'Leafhoppers'],
+    pestsAtRisk: ['Fall Armyworm', 'Grasshoppers'],
   },
   VERY_HIGH: {
     range: '>35°C',
@@ -154,7 +154,7 @@ export const HUMIDITY_CLASSIFICATIONS = {
     description: 'Medium',
     traditionalIndicator: 'Balanced air moisture',
     explanation: 'Supports moderate pest development',
-    pestsAtRisk: ['Stem borers', 'FAW'],
+    pestsAtRisk: ['Stalk borers', 'FAW'],
   },
   HIGH: {
     range: '≥70%',
@@ -195,8 +195,8 @@ export const PEST_RISK_MODELS = {
     preventionSteps: 'Encourage natural predators. Use reflective mulches. Manage nitrogen fertilizer.',
     controlReadiness: 'Insecticidal soap or neem oil. Prepare for spray application.',
   },
-  STEM_BORERS: {
-    name: 'Stem Borers',
+  STALK_BORERS: {
+    name: 'Stalk Borers',
     timeWindow: '10–14 days',
     indicators: [
       { indicator: 'NDRE', moderateStress: { range: '0.05-0.15', riskLevel: 'High' }, severeStress: { range: '<0.05', riskLevel: 'Very High' } },

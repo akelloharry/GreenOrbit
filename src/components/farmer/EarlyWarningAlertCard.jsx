@@ -59,9 +59,14 @@ const EarlyWarningAlertCard = ({ pest }) => {
         </div>
 
         {/* Action Button */}
-        <button className="w-full py-2 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition text-sm">
+        <a
+          className="w-full py-2 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition text-sm text-center block"
+          href="https://www.cimmyt.org/news/maize-scouting-guide/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           📍 Learn How to Scout
-        </button>
+        </a>
       </div>
     </div>
   );

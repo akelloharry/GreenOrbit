@@ -7,7 +7,7 @@ import React from 'react';
 
 const TIERS = [
   { name: 'Basic', price: 500, features: ['Early warning alerts', 'Basic map view', 'Pest risk summary'] },
-  { name: 'Standard', price: 1000, features: ['All Basic features', 'Traditional indicators panel', 'Farm-specific advice', 'SMS alerts'] },
+  { name: 'Standard', price: 1000, features: ['All Basic features', 'Indicators panel', 'Farm-specific advice', 'SMS alerts'] },
   { name: 'Premium', price: 2000, features: ['All Standard features', 'Advanced analytics', 'Priority support', 'Custom reports'] },
 ];
 

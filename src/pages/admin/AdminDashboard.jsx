@@ -99,14 +99,14 @@ const AdminDashboard = () => {
                 value={stats.totalMonitoredFarms}
                 icon="🌾"
                 color="bg-green-100 text-green-800"
-                onClick={() => alert('Monitored Farms:\n' + monitoredFarms.map(f => `${f.name} (${f.acreage} ha)`).join('\n'))}
+                onClick={() => navigate('/admin/monitored-farms')}
               />
               <StatCard
                 title="Active Alerts"
                 value={stats.activeAlerts}
                 icon="🚨"
                 color="bg-red-100 text-red-800"
-                onClick={() => alert('Active Alerts:\n' + activeAlerts.map(a => `${a.farm.name}: ${a.pest} (${a.risk})`).join('\n'))}
+                onClick={() => navigate('/admin/alerts')}
               />
               <StatCard
                 title="Model Confidence"
@@ -119,10 +119,9 @@ const AdminDashboard = () => {
                 value={stats.sensorsOnline}
                 icon="📡"
                 color="bg-purple-100 text-purple-800"
-                onClick={() => alert('Sensors Online:\n' + sensorSources.map(s => `${s.name} (${s.type})`).join('\n'))}
+                onClick={() => navigate('/admin/sensors')}
               />
             </div>
-
             {/* Content Sections */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
               {/* Data Monitoring */}
@@ -140,7 +139,7 @@ const AdminDashboard = () => {
                     </div>
                   </div>
                   <button
-                    onClick={() => alert('Data Monitoring: Showing sensor data and trends.')}
+                    onClick={() => navigate('/admin/data-monitoring')}
                     className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
                   >
                     View Detailed Monitoring
@@ -153,25 +152,25 @@ const AdminDashboard = () => {
                 <h2 className="text-xl font-bold text-gray-800 mb-4">⚙️ Quick Actions</h2>
                 <div className="space-y-3">
                   <button
-                    onClick={() => alert('Model Management: Adjust ML model parameters.')}
+                    onClick={() => navigate('/admin/model-management')}
                     className="w-full py-2 px-4 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition text-sm font-medium"
                   >
                     Model Management
                   </button>
                   <button
-                    onClick={() => alert('Alert Management: View and manage active pest alerts.')}
+                    onClick={() => navigate('/admin/alerts')}
                     className="w-full py-2 px-4 bg-red-50 text-red-700 rounded-lg hover:bg-red-100 transition text-sm font-medium"
                   >
                     Alert Management
                   </button>
                   <button
-                    onClick={() => alert('Farmer Feedback: Review feedback from farmers.')}
+                    onClick={() => navigate('/admin/feedback')}
                     className="w-full py-2 px-4 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition text-sm font-medium"
                   >
                     Farmer Feedback
                   </button>
                   <button
-                    onClick={() => alert('System Reports: Generate and view system reports.')}
+                    onClick={() => navigate('/admin/reports')}
                     className="w-full py-2 px-4 bg-purple-50 text-purple-700 rounded-lg hover:bg-purple-100 transition text-sm font-medium"
                   >
                     System Reports

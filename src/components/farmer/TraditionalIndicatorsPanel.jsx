@@ -1,6 +1,6 @@
 /**
- * Traditional Indicators Panel
- * Shows traditional crop indicators and their pest associations for the selected farm
+ * Indicators Panel
+ * Shows crop indicators and their pest associations for the selected farm
  */
 
 import React from 'react';
@@ -28,9 +28,16 @@ const getIndicatorsForFarm = (farmData) => {
 const TraditionalIndicatorsPanel = ({ farmData }) => {
   const indicators = getIndicatorsForFarm(farmData);
 
+  // Helper to rename pests
+  const renamePest = (pest) => {
+    if (pest === 'Leafhoppers') return 'Grasshoppers';
+    if (pest === 'Stem borers') return 'Stalk borers';
+    return pest;
+  };
+
   return (
     <div className="bg-white rounded-lg shadow p-6 mb-6">
-      <h2 className="text-xl font-bold text-gray-800 mb-4">🌱 Traditional Crop Indicators & Pest Links</h2>
+      <h2 className="text-xl font-bold text-gray-800 mb-4">🌱 Crop Indicators & Pest Links</h2>
       <div className="space-y-4">
         {indicators.map((ind, idx) => (
           <div key={idx} className="border-l-4 p-4 mb-2" style={{ borderColor: ind.riskLevel === 'Low' ? '#22c55e' : ind.riskLevel === 'Moderate' ? '#eab308' : ind.riskLevel === 'High' ? '#ef4444' : '#7f1d1d' }}>
@@ -42,7 +49,7 @@ const TraditionalIndicatorsPanel = ({ farmData }) => {
             <div className="mt-1 text-xs text-gray-500">{ind.explanation ?? ''}</div>
             {ind.pestsAtRisk && ind.pestsAtRisk.length > 0 && (
               <div className="mt-2 text-xs text-red-700">
-                <strong>Pests at risk:</strong> {ind.pestsAtRisk.join(', ')}
+                <strong>Pests at risk:</strong> {ind.pestsAtRisk.map(renamePest).join(', ')}
               </div>
             )}
           </div>

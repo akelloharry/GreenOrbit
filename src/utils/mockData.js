@@ -90,6 +90,10 @@ export const generateMockFarmData = (farmId = 'FARM-001') => {
         color: pestRisk.riskColor,
         confidence: pestRisk.confidence,
       },
+      diseaseRisk: {
+        level: ['Low', 'Moderate', 'High'][Math.floor(Math.random() * 3)],
+        confidence: Math.floor(60 + Math.random() * 40),
+      },
       activePests: activePests.slice(0, 3), // Top 3 threats
     },
   };

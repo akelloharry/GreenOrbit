@@ -65,7 +65,7 @@ const ExplainableAIPanel = ({ farmData }) => {
             {satelliteData.ndre.toFixed(3)} <span className="text-sm text-gray-600">(range: 0.0 - 1.0)</span>
           </p>
           <p className="text-gray-700 text-sm">{ndreClass.explanation}</p>
-          <p className="text-gray-600 text-xs mt-2">Traditional indicator: {ndreClass.traditionalIndicator}</p>
+          <p className="text-gray-600 text-xs mt-2">Indicator: {ndreClass.traditionalIndicator}</p>
         </div>
 
         {/* Soil Moisture */}

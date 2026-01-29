@@ -9,10 +9,29 @@ import { useAuth } from '../context/AuthContext';
 // Lazy load pages for code splitting
 const LoginPage = React.lazy(() => import('../pages/LoginPage'));
 const FarmerDashboard = React.lazy(() => import('../pages/farmer/FarmerDashboard'));
+const RegisterFarmPage = React.lazy(() => import('../pages/farmer/RegisterFarmPage'));
+const SubscriptionPage = React.lazy(() => import('../pages/farmer/SubscriptionPage'));
+const UpgradeAccountPage = React.lazy(() => import('../pages/farmer/UpgradeAccountPage'));
+const DeleteAccountPage = React.lazy(() => import('../pages/farmer/DeleteAccountPage'));
+const AccountOverviewPage = React.lazy(() => import('../pages/farmer/AccountOverviewPage'));
+  <Route path="/farmer/register" element={<ProtectedRoute component={RegisterFarmPage} requiredRole="farmer" />} />
+  <Route path="/farmer/subscription" element={<ProtectedRoute component={SubscriptionPage} requiredRole="farmer" />} />
+  <Route path="/farmer/upgrade" element={<ProtectedRoute component={UpgradeAccountPage} requiredRole="farmer" />} />
+  <Route path="/farmer/delete" element={<ProtectedRoute component={DeleteAccountPage} requiredRole="farmer" />} />
+  <Route path="/farmer/account" element={<ProtectedRoute component={AccountOverviewPage} requiredRole="farmer" />} />
 const FarmDetail = React.lazy(() => import('../pages/farmer/FarmDetail'));
 const AdminDashboard = React.lazy(() => import('../pages/admin/AdminDashboard'));
 const AdminModelManagement = React.lazy(() => import('../pages/admin/ModelManagement'));
 const AdminAlerts = React.lazy(() => import('../pages/admin/AlertManagement'));
+const SensorsPage = React.lazy(() => import('../pages/admin/SensorsPage'));
+const MonitoredFarmsPage = React.lazy(() => import('../pages/admin/MonitoredFarmsPage'));
+const FeedbackPage = React.lazy(() => import('../pages/admin/FeedbackPage'));
+const ReportsPage = React.lazy(() => import('../pages/admin/ReportsPage'));
+const DataMonitoringPage = React.lazy(() => import('../pages/admin/DataMonitoringPage'));
+        <Route
+          path="/admin/data-monitoring"
+          element={<ProtectedRoute component={DataMonitoringPage} requiredRole="admin" />}
+        />
 
 /**
  * Protected Route Component
@@ -92,13 +111,27 @@ export const AppRouter = () => {
           path="/admin/alerts"
           element={<ProtectedRoute component={AdminAlerts} requiredRole="admin" />}
         />
+        <Route
+          path="/admin/sensors"
+          element={<ProtectedRoute component={SensorsPage} requiredRole="admin" />}
+        />
+        <Route
+          path="/admin/monitored-farms"
+          element={<ProtectedRoute component={MonitoredFarmsPage} requiredRole="admin" />}
+        />
+        <Route
+          path="/admin/feedback"
+          element={<ProtectedRoute component={FeedbackPage} requiredRole="admin" />}
+        />
+        <Route
+          path="/admin/reports"
+          element={<ProtectedRoute component={ReportsPage} requiredRole="admin" />}
+        />
 
         {/* Root redirect */}
         <Route
           path="/"
-          element={
-            isAuthenticated ? <Navigate to="/farmer" replace /> : <Navigate to="/login" replace />
-          }
+          element={<Navigate to="/login" replace />}
         />
 
         {/* 404 */}

@@ -18,6 +18,7 @@ import TraditionalIndicatorsPanel from '../../components/farmer/TraditionalIndic
 import PremiumsPanel from '../../components/farmer/PremiumsPanel';
 import { generateMockFarmData } from '../../utils/mockData';
 
+import { ErrorBoundary } from 'react-error-boundary';
 const FarmerDashboard = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
